@@ -15,7 +15,6 @@ import javax.persistence.TransactionRequiredException;
 @RestController
 public class PersonControllerImp implements PersonController {
 
-    final PersonRespository personRespository;
     final PersonService personService;
 
     @Override
