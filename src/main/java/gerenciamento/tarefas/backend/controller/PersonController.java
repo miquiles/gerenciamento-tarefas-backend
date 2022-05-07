@@ -18,7 +18,7 @@ public interface PersonController{
     public ResponseEntity deletePerson(@PathVariable("id") Long id);
 
     @PutMapping("/put/person/{id}")
-    public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody PersonDto payload) throws Exception;
+    public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody PersonDto payload);
 
 
 }

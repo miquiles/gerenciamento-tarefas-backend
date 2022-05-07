@@ -56,12 +56,12 @@ public class PersonControllerImp implements PersonController {
     }
 
     @Override
-    public ResponseEntity updatePerson(Long id, PersonDto payload) throws Exception {
+    public ResponseEntity updatePerson(Long id, PersonDto payload) {
        try {
            var person = this.personService.personConverter(payload);
            this.personService.updatePersonById(id, person);
            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-       } catch (TransactionRequiredException e) {
+       } catch (Exception e) {
            e.printStackTrace();
            return new ResponseEntity<>(MessageResponse.getErroMessage(), HttpStatus.NOT_FOUND);
        }

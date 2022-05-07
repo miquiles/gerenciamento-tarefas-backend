@@ -62,7 +62,7 @@ public class PersonService {
         return null;
     }
     @Transactional
-    public void updatePersonById(Long id, Person payload) throws Exception {
+    public void updatePersonById(Long id, Person payload) {
         var person = personRespository.findById(id);
         if(person.isPresent()){
             this.personRespository.updatePerson(id, payload.getName(), payload.getDocument());
