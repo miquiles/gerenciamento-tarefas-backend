@@ -5,6 +5,7 @@ import gerenciamento.tarefas.backend.model.dto.PersonDto;
 import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
 import gerenciamento.tarefas.backend.repository.PersonRespository;
+import gerenciamento.tarefas.backend.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PersonServiceImpl {
+public class PersonService {
 
     final PersonRespository personRespository;
+    final TaskRepository taskRepository;
 
     public Person personConverter(PersonDto personDto){
         return Person.builder()
@@ -76,6 +78,23 @@ public class PersonServiceImpl {
             throw new TransactionRequiredException("Id not exists");
         }
     }
+
+//    public void personIntoTask(Person person, Long id) throws Exception {
+//        if(this.verifyIfExistsPersonIntoTask(person)){
+//            this.taskRepository.updatePerson(id, person.getId());
+//        }else {
+//            throw new Exception("Contém uma pessoa alocada.");
+//        }
+//    }
+//
+//    public Boolean verifyIfExistsPersonIntoTask(Person person){
+//        if(taskRepository.findByPerson(person.getId()).isEmpty()){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//
+//    }
 
 
 }

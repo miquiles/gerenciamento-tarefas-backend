@@ -5,13 +5,13 @@ import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.enums.TaskStatus;
 import gerenciamento.tarefas.backend.repository.PersonRespository;
 import gerenciamento.tarefas.backend.repository.TaskRepository;
+import gerenciamento.tarefas.backend.util.DateUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.transaction.Transactional;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -30,52 +30,40 @@ public class TaskService {
     }
 
 
-    public String deadlineCalcule(Date finalDeadLine){
-        var nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-        return "";
-
-    }
-
     public Task buildTask (TaskDto taskDto) throws Exception {
         var person = personRespository.findFirstByDocument(taskDto.getPersonDocument());
         if(person.isPresent()){
             return Task.builder()
                     .description(taskDto.getDescription())
-                    .deadline(formatDate(taskDto.getDeadline()))
-                    .status(TaskStatus.CLOSED)
+                    .deadline(DateUtil.formateDate(taskDto.getDeadline()))
+                    .status(TaskStatus.OPEN)
                     .title(taskDto.getTitle())
                     .person(person.get())
                     .startTask(Calendar.getInstance())
                     .departments(DepartmentsEnum.departments(taskDto.getDepartment().toLowerCase(Locale.ROOT)))
+                    .duration(DateUtil.duration(DateUtil.formateDate(taskDto.getDeadline())))
                     .build();
         }else {
             return Task.builder()
                 .description(taskDto.getDescription())
-                .deadline(formatDate(taskDto.getDeadline()))
-                .status(TaskStatus.CLOSED)
+                .deadline(DateUtil.formateDate(taskDto.getDeadline()))
+                .status(TaskStatus.OPEN)
                 .title(taskDto.getTitle())
                 .startTask(Calendar.getInstance())
+                .duration(DateUtil.duration(DateUtil.formateDate(taskDto.getDeadline())))
                 .departments(DepartmentsEnum.departments(taskDto.getDepartment().toLowerCase(Locale.ROOT)))
                 .build();}
     }
 
-    public Date formatDate(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        var dateFormat = format.parse(date);
-        return dateFormat;
-
+    public List<Task> findAll(){
+        return taskRepository.findAll();
     }
 
-    public Date duration (String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        var dateFormat = format.parse(date);
-        return dateFormat;
+    @Transactional
+    public void finishTask(Long id){
+        this.taskRepository.updateStatus(id, 1);
+
     }
-
-
-
-
 
 
 }

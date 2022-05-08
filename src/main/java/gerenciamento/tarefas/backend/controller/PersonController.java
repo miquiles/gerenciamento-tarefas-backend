@@ -20,5 +20,8 @@ public interface PersonController{
     @PutMapping("/put/person/{id}")
     public ResponseEntity updatePerson(@PathVariable("id") Long id, @RequestBody PersonDto payload);
 
+//    @PutMapping("/tasks/edit/{id}")
+//    public ResponseEntity personToTask(@RequestBody PersonDto payload, @PathVariable("id") Long id) throws Exception;
+
 
 }

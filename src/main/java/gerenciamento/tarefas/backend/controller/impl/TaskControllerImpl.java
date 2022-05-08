@@ -1,6 +1,7 @@
 package gerenciamento.tarefas.backend.controller.impl;
 
 import gerenciamento.tarefas.backend.controller.TaskController;
+import gerenciamento.tarefas.backend.model.Task;
 import gerenciamento.tarefas.backend.model.dto.TaskDto;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
 import gerenciamento.tarefas.backend.service.TaskService;
@@ -33,5 +34,18 @@ public class TaskControllerImpl implements TaskController {
         var taskResponse = taskService.findById(id);
         return new ResponseEntity(taskResponse, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity findAllTasks() {
+        var list = taskService.findAll();
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity finishTask(Long id, Task task) {
+        this.taskService.finishTask(id);
+       return new ResponseEntity(MessageResponse.getSuccessMessage(),HttpStatus.OK);
+    }
+
 
 }

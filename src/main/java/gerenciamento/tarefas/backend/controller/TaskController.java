@@ -1,5 +1,6 @@
 package gerenciamento.tarefas.backend.controller;
 
+import gerenciamento.tarefas.backend.model.Task;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
 import gerenciamento.tarefas.backend.model.dto.TaskDto;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,11 @@ public interface TaskController {
 
     @GetMapping("/find-task/{id}")
     public ResponseEntity findTask(@PathVariable Long id) throws Exception;
+
+    @GetMapping("/find-all")
+    public ResponseEntity findAllTasks();
+
+    @PutMapping("/finish/task/{id}")
+    public ResponseEntity finishTask(@PathVariable("id") Long id, @RequestBody Task task);
+
 }

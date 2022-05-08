@@ -3,7 +3,7 @@ package gerenciamento.tarefas.backend.controller.impl;
 import gerenciamento.tarefas.backend.controller.PersonController;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
-import gerenciamento.tarefas.backend.service.PersonServiceImpl;
+import gerenciamento.tarefas.backend.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PersonControllerImpl implements PersonController {
 
-    final PersonServiceImpl personServiceImpl;
+    final PersonService personService;
+
 
     @Override
     public ResponseEntity<?> savePerson(PersonDto payload) {
         try {
-            var person = personServiceImpl.personConverter(payload);
-            this.personServiceImpl.savePerson(person);
+            var person = personService.personConverter(payload);
+            this.personService.savePerson(person);
             return new ResponseEntity<>(MessageResponse.getSuccessMessage(), HttpStatus.CREATED);
 
         } catch (NumberFormatException n){
@@ -34,8 +35,8 @@ public class PersonControllerImpl implements PersonController {
     @Override
     public ResponseEntity findPerson(Long id) {
         try {
-            var person = personServiceImpl.findPersonById(id);
-            var personResponse = personServiceImpl.personConverter(person.get());
+            var person = personService.findPersonById(id);
+            var personResponse = personService.personConverter(person.get());
             return new ResponseEntity<>(personResponse,HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -47,7 +48,7 @@ public class PersonControllerImpl implements PersonController {
     @Override
     public ResponseEntity<?> deletePerson(Long id) {
         try {
-            this.personServiceImpl.deletePersonById(id);
+            this.personService.deletePersonById(id);
             return new ResponseEntity<>(MessageResponse.getSuccessDeleteMessage(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,8 +60,8 @@ public class PersonControllerImpl implements PersonController {
     @Override
     public ResponseEntity updatePerson(Long id, PersonDto payload) {
        try {
-           var person = this.personServiceImpl.personConverter(payload);
-           this.personServiceImpl.updatePersonById(id, person);
+           var person = this.personService.personConverter(payload);
+           this.personService.updatePersonById(id, person);
            return new ResponseEntity<>(HttpStatus.ACCEPTED);
        } catch (Exception e) {
            e.printStackTrace();
@@ -68,6 +69,19 @@ public class PersonControllerImpl implements PersonController {
        }
 
     }
+
+//    @Override
+//    public ResponseEntity personToTask(PersonDto payload, Long id) throws Exception {
+//        try {
+//            var person = personService.personConverter(payload);
+//            this.personService.personIntoTask(person, id);
+//            return new ResponseEntity(person, HttpStatus.OK);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity(HttpStatus.FORBIDDEN);
+//        }
+//
+//    }
 
 
 }
