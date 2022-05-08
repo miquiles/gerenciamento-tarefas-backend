@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Builder
 @Getter
@@ -19,16 +18,8 @@ public class Person {
     private Long id;
     private String name;
     private String document;
+    private int departments;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    private Department department;
-
-    @OneToMany(mappedBy = "person", cascade=CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks;
-
-    public Person(String name, String document) {
-        this.name = name;
-    }
 
 
 }

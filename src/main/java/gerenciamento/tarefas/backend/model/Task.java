@@ -1,15 +1,20 @@
 package gerenciamento.tarefas.backend.model;
 
+import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.enums.TaskStatus;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 
 
+@Builder
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task {
 
     @Id
@@ -17,15 +22,14 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    private String deadline;
+    private Date deadline; // prazo final
+    private Calendar startTask; // primeiro dia da task iniciada
+    private int departments;
+    private Date duration; //valor entre o prazo final e a data iniciada.
+    private TaskStatus status = TaskStatus.CLOSED;
 
-    @OneToOne
-    private Department department;
-    private String duration;
-    private TaskStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name = "person_id")
     private Person person;
 
 }

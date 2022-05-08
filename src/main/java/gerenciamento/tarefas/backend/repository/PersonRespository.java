@@ -18,4 +18,8 @@ public interface PersonRespository extends JpaRepository<Person, Long> {
     @Query(nativeQuery = true, value = "update Person set name = :name, document = :document WHERE id = :id")
     void updatePerson(@Param("id") Long id, @Param("name") String name, @Param("document") String document);
 
+    Optional<Person> findFirstByDocument(String document);
+
+
+
 }

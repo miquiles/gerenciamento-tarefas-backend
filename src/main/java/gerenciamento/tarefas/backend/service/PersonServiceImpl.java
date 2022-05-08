@@ -2,6 +2,7 @@ package gerenciamento.tarefas.backend.service;
 
 import gerenciamento.tarefas.backend.model.Person;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
+import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
 import gerenciamento.tarefas.backend.repository.PersonRespository;
 import lombok.AllArgsConstructor;
@@ -9,11 +10,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.TransactionRequiredException;
 import javax.transaction.Transactional;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PersonService {
+public class PersonServiceImpl {
 
     final PersonRespository personRespository;
 
@@ -21,6 +23,7 @@ public class PersonService {
         return Person.builder()
                 .name(personDto.getName())
                 .document(personDto.getDocument())
+                .departments(DepartmentsEnum.departments(personDto.getDepartment().toLowerCase(Locale.ROOT)))
                 .build();
     }
 
@@ -48,6 +51,7 @@ public class PersonService {
         return PersonDto.builder()
                 .name(person.getName())
                 .document(person.getDocument())
+                .department(DepartmentsEnum.departments(person.getDepartments()))
                 .build();
     }
 
@@ -61,6 +65,8 @@ public class PersonService {
         }
         return null;
     }
+
+
     @Transactional
     public void updatePersonById(Long id, Person payload) {
         var person = personRespository.findById(id);

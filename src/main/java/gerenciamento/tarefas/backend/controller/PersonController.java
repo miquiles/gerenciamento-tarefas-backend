@@ -1,15 +1,15 @@
 package gerenciamento.tarefas.backend.controller;
 
-import gerenciamento.tarefas.backend.model.Person;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/")
+@RequestMapping("/person/")
 public interface PersonController{
 
     @PostMapping("/save-person")
-    public ResponseEntity<?> save(@RequestBody PersonDto payload);
+    public ResponseEntity<?> savePerson(@RequestBody PersonDto payload);
 
     @GetMapping("/fetch/{id}")
     public ResponseEntity findPerson(@PathVariable("id") Long id) throws Exception;

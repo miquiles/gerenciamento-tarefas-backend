@@ -1,40 +1,41 @@
-package gerenciamento.tarefas.backend.controller;
+package gerenciamento.tarefas.backend.controller.impl;
 
+import gerenciamento.tarefas.backend.controller.PersonController;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
-import gerenciamento.tarefas.backend.repository.PersonRespository;
-import gerenciamento.tarefas.backend.service.PersonService;
+import gerenciamento.tarefas.backend.service.PersonServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.TransactionRequiredException;
-
 @AllArgsConstructor
 @RestController
-public class PersonControllerImp implements PersonController {
+public class PersonControllerImpl implements PersonController {
 
-    final PersonService personService;
+    final PersonServiceImpl personServiceImpl;
 
     @Override
-    public ResponseEntity<?> save(PersonDto payload) {
+    public ResponseEntity<?> savePerson(PersonDto payload) {
         try {
-            var person = personService.personConverter(payload);
-            this.personService.savePerson(person);
+            var person = personServiceImpl.personConverter(payload);
+            this.personServiceImpl.savePerson(person);
             return new ResponseEntity<>(MessageResponse.getSuccessMessage(), HttpStatus.CREATED);
 
-        }catch (Exception e){
+        } catch (NumberFormatException n){
+            n.printStackTrace();
+            return new ResponseEntity<>(MessageResponse.getDepartmentNotFound(), HttpStatus.NOT_FOUND);
+        } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(MessageResponse.getErroMessage(),HttpStatus.CONFLICT);
         }
     }
 
     @Override
-    public ResponseEntity findPerson(Long id) throws Exception {
+    public ResponseEntity findPerson(Long id) {
         try {
-            var person = personService.findPersonById(id);
-            var personResponse = personService.personConverter(person.get());
+            var person = personServiceImpl.findPersonById(id);
+            var personResponse = personServiceImpl.personConverter(person.get());
             return new ResponseEntity<>(personResponse,HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -46,7 +47,7 @@ public class PersonControllerImp implements PersonController {
     @Override
     public ResponseEntity<?> deletePerson(Long id) {
         try {
-            this.personService.deletePersonById(id);
+            this.personServiceImpl.deletePersonById(id);
             return new ResponseEntity<>(MessageResponse.getSuccessDeleteMessage(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,8 +59,8 @@ public class PersonControllerImp implements PersonController {
     @Override
     public ResponseEntity updatePerson(Long id, PersonDto payload) {
        try {
-           var person = this.personService.personConverter(payload);
-           this.personService.updatePersonById(id, person);
+           var person = this.personServiceImpl.personConverter(payload);
+           this.personServiceImpl.updatePersonById(id, person);
            return new ResponseEntity<>(HttpStatus.ACCEPTED);
        } catch (Exception e) {
            e.printStackTrace();
