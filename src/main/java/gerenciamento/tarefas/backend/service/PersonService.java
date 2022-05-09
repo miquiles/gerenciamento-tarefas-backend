@@ -11,6 +11,7 @@ import gerenciamento.tarefas.backend.repository.PersonRespository;
 import gerenciamento.tarefas.backend.repository.TaskRepository;
 import gerenciamento.tarefas.backend.util.DateUtil;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,9 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class PersonService {
 
-    final PersonRespository personRespository;
-    final TaskRepository taskRepository;
+    private final PersonRespository personRespository;
+    private final TaskRepository taskRepository;
+
 
     public Person personConverter(PersonDto personDto){
         return Person.builder()
@@ -39,7 +41,7 @@ public class PersonService {
                 .build();
     }
 
-    private Boolean verifyUser(String document){
+    public Boolean verifyUser(String document){
         var responseDocument = personRespository.findByDocument(document);
         return responseDocument.isEmpty() ? true : false;
     }

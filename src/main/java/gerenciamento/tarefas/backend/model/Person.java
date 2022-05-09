@@ -20,4 +20,5 @@ public class Person {
     private String document;
     private int departments;
 
+
 }

@@ -1,13 +1,11 @@
 package gerenciamento.tarefas.backend.controller;
 
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
-import gerenciamento.tarefas.backend.model.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.List;
+
 
 @RequestMapping("/person/")
 public interface PersonController{

@@ -28,10 +28,10 @@ public class DepartmentsEnum {
                 department = "desenvolvimento";
                 break;
             case 2 :
-                department = "rh";
+                department = "financeiro";
                 break;
             case 3 :
-                department = "diretoria";
+                department = "comercial";
                 break;
             default:
                 department = null;

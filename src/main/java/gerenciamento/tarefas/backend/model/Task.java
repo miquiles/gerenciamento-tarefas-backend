@@ -21,10 +21,10 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    private LocalDate deadline; // prazo final
-    private Calendar startTask; // primeiro dia da task iniciada
+    private LocalDate deadline;
+    private Calendar startTask;
     private int departments;
-    private Long duration; //valor entre o prazo final e a data iniciada.
+    private Long duration;
     private TaskStatus status = TaskStatus.CLOSED;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
