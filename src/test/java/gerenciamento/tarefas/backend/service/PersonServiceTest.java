@@ -4,37 +4,74 @@ import gerenciamento.tarefas.backend.ConfigTest;
 import gerenciamento.tarefas.backend.model.Person;
 import gerenciamento.tarefas.backend.repository.PersonRespository;
 import gerenciamento.tarefas.backend.repository.TaskRepository;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
+
+
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
 public class PersonServiceTest extends ConfigTest {
 
-    @MockBean
+    @Mock
     private PersonRespository personRespository;
-    @MockBean
+    @Mock
     private TaskRepository taskRepository;
 
-    @Autowired
+    @InjectMocks
     private PersonService personService;
 
+    private Person entity;
+
+    @BeforeEach
+    void setup(){
+        entity = new Person();
+    }
+
     @Test
-    public void deveRemoverUmaPessoa() throws Exception {
-        Long id = 1L;
+    @DisplayName("deve salvar uma pessoa e retornar a mesma")
+    public void deveSalvarUmaPessoa() throws Exception {
 
-        Optional<Person> person = Optional.of(createPerson());
-        Mockito.when(personRespository.findById(ArgumentMatchers.eq(id))).thenReturn(person);
 
-        personService.deletePersonById(id);
+        when(personRespository.save(any())).thenReturn(entity);
+
+        var retorno = personService.savePerson(entity);
+
+        assertThat(retorno).isNotNull();
+        assertThat(retorno.getDocument()).isEqualTo(entity.getDocument());
+        assertThat(retorno.getDepartments()).isEqualTo(entity.getDepartments());
+        assertThat(retorno.getName()).isEqualTo(entity.getName());
+
 
     }
 
-    private Person createPerson() {
-        Person person = Mockito.mock(Person.class);
-        return person;
+    @Test
+    @DisplayName("deve retornar a pessoa pelo id")
+    public void deveRetornarPessoaPorId() throws Exception {
+        Long idPerson = 1L;
+        when(personRespository.findById(anyLong())).thenReturn(Optional.ofNullable(entity));
+
+        var retorno = personService.findPersonById(idPerson);
+        assertThat(retorno).isNotNull();
+        assertThat(retorno.get().getName()).isEqualTo(entity.getName());
+        assertThat(retorno.get().getDepartments()).isEqualTo(entity.getDepartments());
+        assertThat(retorno.get().getDocument()).isEqualTo(entity.getDocument());
+
+
     }
-}
+
+
+
+
+    }
