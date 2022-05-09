@@ -1,8 +1,10 @@
 package gerenciamento.tarefas.backend.service;
+import gerenciamento.tarefas.backend.model.Person;
 import gerenciamento.tarefas.backend.model.Task;
 import gerenciamento.tarefas.backend.model.dto.TaskDto;
 import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.enums.TaskStatus;
+import gerenciamento.tarefas.backend.model.response.PersonTaskResponse;
 import gerenciamento.tarefas.backend.repository.PersonRespository;
 import gerenciamento.tarefas.backend.repository.TaskRepository;
 import gerenciamento.tarefas.backend.util.DateUtil;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -64,6 +68,10 @@ public class TaskService {
         this.taskRepository.updateStatus(id, 1);
 
     }
+
+
+
+
 
 
 }

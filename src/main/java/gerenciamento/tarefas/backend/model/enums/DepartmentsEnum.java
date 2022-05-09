@@ -8,14 +8,14 @@ public class DepartmentsEnum {
             case "desenvolvimento" :
                 number = 1;
                 break;
-            case "rh" :
+            case "financeiro" :
                 number = 2;
                 break;
-            case "diretoria" :
+            case "comercial" :
                 number = 3;
                 break;
             default:
-               throw new NumberFormatException("Department not foud");
+               throw new NumberFormatException("Department not found");
         }
         return number;
     }

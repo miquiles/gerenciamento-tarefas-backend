@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class TaskControllerImpl implements TaskController {
 
-    final TaskService taskService;
+    private final TaskService taskService;
 
     @Override
     public ResponseEntity saveTask(TaskDto taskDto) throws Exception {

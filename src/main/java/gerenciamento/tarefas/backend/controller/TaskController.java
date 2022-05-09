@@ -8,20 +8,22 @@ import lombok.With;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RequestMapping("/tasks")
 public interface TaskController {
 
-    @PostMapping("/save")
-    public ResponseEntity saveTask(@RequestBody TaskDto taskDto)throws Exception;
+    @PostMapping("/register")
+    public ResponseEntity saveTask(@RequestBody @Valid TaskDto taskDto)throws Exception;
 
-    @GetMapping("/find-task/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity findTask(@PathVariable Long id) throws Exception;
 
     @GetMapping("/find-all")
     public ResponseEntity findAllTasks();
 
-    @PutMapping("/finish/task/{id}")
+    @PutMapping("/finish/{id}")
     public ResponseEntity finishTask(@PathVariable("id") Long id, @RequestBody Task task);
 
 }

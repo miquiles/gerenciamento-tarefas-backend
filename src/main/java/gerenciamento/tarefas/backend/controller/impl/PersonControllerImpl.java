@@ -1,19 +1,31 @@
 package gerenciamento.tarefas.backend.controller.impl;
 
 import gerenciamento.tarefas.backend.controller.PersonController;
+import gerenciamento.tarefas.backend.model.Person;
+import gerenciamento.tarefas.backend.model.Task;
 import gerenciamento.tarefas.backend.model.dto.PersonDto;
+import gerenciamento.tarefas.backend.model.dto.TaskDto;
 import gerenciamento.tarefas.backend.model.response.MessageResponse;
+import gerenciamento.tarefas.backend.repository.PersonRespository;
+import gerenciamento.tarefas.backend.repository.TaskRepository;
 import gerenciamento.tarefas.backend.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.JdbcTransactionObjectSupport;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
 public class PersonControllerImpl implements PersonController {
 
-    final PersonService personService;
+    private final PersonService personService;
+    private final PersonRespository personRespository;
+    private final TaskRepository taskRepository;
 
 
     @Override
@@ -70,18 +82,26 @@ public class PersonControllerImpl implements PersonController {
 
     }
 
-//    @Override
-//    public ResponseEntity personToTask(PersonDto payload, Long id) throws Exception {
-//        try {
-//            var person = personService.personConverter(payload);
-//            this.personService.personIntoTask(person, id);
-//            return new ResponseEntity(person, HttpStatus.OK);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity(HttpStatus.FORBIDDEN);
-//        }
-//
-//    }
+    @Override
+    public ResponseEntity personInTask(PersonDto payload, Long id) throws Exception {
+        try {
+            var person = personService.personConverter(payload);
+            this.personService.personIntoTask(person, id);
+            return new ResponseEntity(MessageResponse.getAddPersonInTask(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity(MessageResponse.getAddPersonInTaskError(),HttpStatus.NOT_ACCEPTABLE);
+        }
 
+    }
 
+    @Override
+    public ResponseEntity findAllTasksWithPerson() throws Exception {
+        return new ResponseEntity(this.personService.findAllTasks(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity findAll() throws Exception {
+        return new ResponseEntity(this.personRespository.findAll(), HttpStatus.OK);
+    }
 }

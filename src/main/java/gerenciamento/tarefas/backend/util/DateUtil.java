@@ -1,5 +1,6 @@
 package gerenciamento.tarefas.backend.util;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.servlet.tags.EditorAwareTag;
 
@@ -30,15 +31,13 @@ public class DateUtil {
     }
 
     public static Long duration (LocalDate deadline) throws ParseException {
-
         var currentDay = LocalDate.now();
-
         return ChronoUnit.DAYS.between(currentDay, deadline);
 
+    }
 
-
-
-
-
+    public static Long durationHours(LocalDate deadline){
+        var currentDay = LocalDate.now();
+        return ChronoUnit.HOURS.between(currentDay, deadline);
     }
 }

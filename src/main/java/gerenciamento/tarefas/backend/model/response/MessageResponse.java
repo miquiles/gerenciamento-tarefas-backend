@@ -11,6 +11,8 @@ public class MessageResponse {
     private static final String BAD_REQUEST_MESSAGE = "Houve um erro na tentativa de acessar o servidor";
     private static final String SUCCESS_DELETE_MESSAGE = "Usuário deletado com sucesso";
     private static final String DEPARTMENT_NOT_FOUND = "Verifique o departamento informado";
+    private static final String ADD_PERSON_IN_TASK= "Pessoa vinculada a tarefa com sucesso";
+    private static final String ADD_PERSON_IN_TASK_ERROR= "Pessoa não possui o mesmo departamento da tarefa ou não existe";
 
     public static String getSuccessMessage(){
         return SUCCESS_MESSAGE;
@@ -31,5 +33,12 @@ public class MessageResponse {
 
     public static java.lang.String getDepartmentNotFound() {
         return DEPARTMENT_NOT_FOUND;
+    }
+
+    public static String getAddPersonInTask(){
+        return ADD_PERSON_IN_TASK;
+    }
+    public static String getAddPersonInTaskError(){
+        return ADD_PERSON_IN_TASK_ERROR;
     }
 }

@@ -9,15 +9,21 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Person> findByPerson(Long id);
 
+
     @Modifying
     @Query(nativeQuery = true, value = "update Task set status = :status WHERE id = :id")
     void updateStatus(@Param("id") Long id, @Param("status") int status);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "update Task set person_id = :idPerson WHERE id = :idTask")
+    void registerPersonInTask(@Param("idTask") Long idTask, @Param("idPerson") Long idPerson);
 
 
 

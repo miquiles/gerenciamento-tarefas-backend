@@ -1,13 +1,11 @@
 package gerenciamento.tarefas.backend.model;
 
-import gerenciamento.tarefas.backend.model.enums.DepartmentsEnum;
 import gerenciamento.tarefas.backend.model.enums.TaskStatus;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 
 
 @Builder
