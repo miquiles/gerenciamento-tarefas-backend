@@ -12,11 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 
 
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 public class PersonServiceTest extends ConfigTest {
@@ -53,5 +56,22 @@ public class PersonServiceTest extends ConfigTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar a pessoa pelo id")
+    public void deveRetornarPessoaPorId() throws Exception {
+        Long idPerson = 1L;
+        when(personRespository.findById(anyLong())).thenReturn(Optional.ofNullable(entity));
 
-}
+        var retorno = personService.findPersonById(idPerson);
+        assertThat(retorno).isNotNull();
+        assertThat(retorno.get().getName()).isEqualTo(entity.getName());
+        assertThat(retorno.get().getDepartments()).isEqualTo(entity.getDepartments());
+        assertThat(retorno.get().getDocument()).isEqualTo(entity.getDocument());
+
+
+    }
+
+
+
+
+    }
